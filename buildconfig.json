@@ -1,0 +1,40 @@
+ {
+  "kind": "BuildConfig",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "mysql-cluster",
+    "creationTimestamp": null,
+    "labels": {
+      "name": "mysql-cluster"
+    }
+  },
+  "spec": {
+    "source": {
+      "type": "Git",
+      "git": {
+        "uri": "git://github.com/Cameronwyatt/mysql-cluster-container.git",
+        "ref": "master"
+      },
+      "contextDir": ""
+    },
+    "strategy": {
+      "type": "Docker",
+      "dockerStrategy": {
+        "from": {
+          "kind": "ImageStreamTag",
+          "name": "mysql-cluster-management:latest"
+        }
+      }
+    },
+    "output": {
+      "to": {
+        "kind": "ImageStreamTag",
+        "name": "mysql-cluster:latest"
+      }
+    },
+    "resources": {}
+  },
+  "status": {
+    "lastVersion": 0
+  }
+}
