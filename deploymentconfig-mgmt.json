@@ -1,0 +1,124 @@
+{
+    "kind": "DeploymentConfig",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "mysql-cluster-container",
+        "generation": 1,
+        "creationTimestamp": null,
+        "labels": {
+            "app": "mysql-cluster-container"
+        },
+        "annotations": {
+            "openshift.io/generated-by": "OpenShiftNewApp"
+        }
+    },
+    "spec": {
+        "strategy": {
+            "type": "Rolling",
+            "rollingParams": {
+                "updatePeriodSeconds": 1,
+                "intervalSeconds": 1,
+                "timeoutSeconds": 600,
+                "maxUnavailable": "25%",
+                "maxSurge": "25%"
+            },
+            "resources": {},
+            "activeDeadlineSeconds": 21600
+        },
+        "triggers": [
+            {
+                "type": "ConfigChange"
+            },
+            {
+                "type": "ImageChange",
+                "imageChangeParams": {
+                    "automatic": true,
+                    "containerNames": [
+                        "mysql-cluster-container"
+                    ],
+                    "from": {
+                        "kind": "ImageStreamTag",
+                        "namespace": "cwyatt-mysql",
+                        "name": "mysql-cluster-container:latest"
+                    }
+                }
+            }
+        ],
+        "replicas": 1,
+        "test": false,
+        "selector": {
+            "app": "mysql-cluster-container",
+            "deploymentconfig": "mysql-cluster-container"
+        },
+        "template": {
+            "metadata": {
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "mysql-cluster-container",
+                    "deploymentconfig": "mysql-cluster-container"
+                },
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftNewApp"
+                }
+            },
+            "spec": {
+                "volumes": [
+                    {
+                        "name": "mysql-cluster-container-volume-1",
+                        "emptyDir": {}
+                    }
+                ],
+                "containers": [
+                    {
+                        "name": "mysql-cluster-container",
+                        "image": "docker-registry.default.svc:5000/cwyatt-mysql/mysql-cluster-container@sha256:2804ec7832134e833301f47f956c6e913e4933c9a00471fe870e6adb718b95d2",
+                        "command": [
+                            "ndb_mgmd"
+                        ],
+                        "ports": [
+                            {
+                                "containerPort": 1186,
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 2202,
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 3306,
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 33060,
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "resources": {},
+                        "volumeMounts": [
+                            {
+                                "name": "mysql-cluster-container-volume-1",
+                                "mountPath": "/var/lib/mysql"
+                            }
+                        ],
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "imagePullPolicy": "Always"
+                    }
+                ],
+                "restartPolicy": "Always",
+                "terminationGracePeriodSeconds": 30,
+                "dnsPolicy": "ClusterFirst",
+                "securityContext": {},
+                "schedulerName": "default-scheduler"
+            }
+        }
+    },
+    "status": {
+        "latestVersion": 0,
+        "observedGeneration": 0,
+        "replicas": 0,
+        "updatedReplicas": 0,
+        "availableReplicas": 0,
+        "unavailableReplicas": 0
+    }
+}
