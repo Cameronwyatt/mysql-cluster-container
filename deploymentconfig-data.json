@@ -6,7 +6,8 @@
         "generation": 1,
         "creationTimestamp": null,
         "labels": {
-            "app": "mysql-cluster-container"
+            "app": "mysql-cluster-container",
+            "mysql-cluster": "data"
         },
         "annotations": {
             "openshift.io/generated-by": "OpenShiftNewApp"
@@ -44,7 +45,7 @@
                 }
             }
         ],
-        "replicas": 1,
+        "replicas": 2,
         "test": false,
         "selector": {
             "app": "mysql-cluster-container",
@@ -62,12 +63,6 @@
                 }
             },
             "spec": {
-                "volumes": [
-                    {
-                        "name": "mysql-cluster-container-volume-1",
-                        "emptyDir": {}
-                    }
-                ],
                 "containers": [
                     {
                         "name": "mysql-cluster-container",
@@ -94,12 +89,6 @@
                             }
                         ],
                         "resources": {},
-                        "volumeMounts": [
-                            {
-                                "name": "mysql-cluster-container-volume-1",
-                                "mountPath": "/var/lib/mysql"
-                            }
-                        ],
                         "terminationMessagePath": "/dev/termination-log",
                         "terminationMessagePolicy": "File",
                         "imagePullPolicy": "Always"

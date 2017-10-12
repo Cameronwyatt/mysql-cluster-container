@@ -6,7 +6,8 @@
         "generation": 1,
         "creationTimestamp": null,
         "labels": {
-            "app": "mysql-cluster-container"
+            "app": "mysql-cluster-container",
+            "mysql-cluster": "mysql"
         },
         "annotations": {
             "openshift.io/generated-by": "OpenShiftNewApp"
